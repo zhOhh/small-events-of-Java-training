@@ -3,9 +3,9 @@ package TankGame6;
 import java.util.Vector;
 
 @SuppressWarnings({"all"})
-public class EnemyTank extends Tank implements Runnable {
+public class EnemyTank extends TankGame6.Tank implements Runnable {
     //敌人坦克类中 使用 Vector 保存多个Shot
-    Vector<Shot> shots = new Vector<>();
+    Vector<TankGame6.Shot> shots = new Vector<>();
     Vector<EnemyTank> enemyTanks = new Vector<>();
     boolean isLive = true;
 
@@ -217,19 +217,19 @@ public class EnemyTank extends Tank implements Runnable {
     public void run() {
         while (true) {
             if (isLive && shots.size() < 1) {
-                Shot s = null;
+                TankGame6.Shot s = null;
                 switch (getDirect()) {
                     case 0:
-                        s = new Shot(getX() + 20, getY(), 0);
+                        s = new TankGame6.Shot(getX() + 20, getY(), 0);
                         break;
                     case 1:
-                        s = new Shot(getX() + 60, getY() + 20, 1);
+                        s = new TankGame6.Shot(getX() + 60, getY() + 20, 1);
                         break;
                     case 2:
-                        s = new Shot(getX() + 20, getY() + 60, 2);
+                        s = new TankGame6.Shot(getX() + 20, getY() + 60, 2);
                         break;
                     case 3:
-                        s = new Shot(getX(), getY() + 20, 3);
+                        s = new TankGame6.Shot(getX(), getY() + 20, 3);
                         break;
                 }
 

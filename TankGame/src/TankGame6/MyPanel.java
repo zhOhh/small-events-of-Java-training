@@ -26,14 +26,14 @@ public class MyPanel extends JPanel implements KeyListener, Runnable {
     Image image3 = null;
 
     public MyPanel(String key) {
-        File file = new File(Recorder.getRecordFile());
+        File file = new File(TankGame6.Recorder.getRecordFile());
         if (file.exists()) {
-            nodes = Recorder.getNodesAndEnemyTankRec();
+            nodes = TankGame6.Recorder.getNodesAndEnemyTankRec();
         }else {
             System.out.println("文件不存在，只能开启新游戏");
             key="1";
         }
-        Recorder.setEnemyTanks(enemyTanks);
+        TankGame6.Recorder.setEnemyTanks(enemyTanks);
         hero = new Hero(500, 100);//初始化自己坦克
 
         switch (key) {
@@ -49,7 +49,7 @@ public class MyPanel extends JPanel implements KeyListener, Runnable {
                     //启动
                     new Thread(enemyTank).start();
                     //给enemyTank加入一颗子弹
-                    Shot shot = new Shot(enemyTank.getX() + 20, enemyTank.getY() + 60, enemyTank.getDirect());
+                    TankGame6.Shot shot = new TankGame6.Shot(enemyTank.getX() + 20, enemyTank.getY() + 60, enemyTank.getDirect());
                     //加入enemyTank的Vector成员
                     enemyTank.shots.add(shot);
                     //启动shot对象
@@ -72,7 +72,7 @@ public class MyPanel extends JPanel implements KeyListener, Runnable {
                     //启动
                     new Thread(enemyTank).start();
                     //给enemyTank加入一颗子弹
-                    Shot shot = new Shot(enemyTank.getX() + 20, enemyTank.getY() + 60, enemyTank.getDirect());
+                    TankGame6.Shot shot = new TankGame6.Shot(enemyTank.getX() + 20, enemyTank.getY() + 60, enemyTank.getDirect());
                     //加入enemyTank的Vector成员
                     enemyTank.shots.add(shot);
                     //启动shot对象
@@ -103,7 +103,7 @@ public class MyPanel extends JPanel implements KeyListener, Runnable {
         g.drawString("累计击毁敌方坦克:", 1020, 30);
         drawTank(1020, 60, g, 0, 0);
         g.setColor(Color.BLACK);
-        g.drawString(Recorder.getAllEnemyTankNum() + "", 1080, 100);
+        g.drawString(TankGame6.Recorder.getAllEnemyTankNum() + "", 1080, 100);
 
     }
 
@@ -119,7 +119,7 @@ public class MyPanel extends JPanel implements KeyListener, Runnable {
 
         //画出hero子弹
         for (int i = 0; i < hero.shots.size(); i++) {
-            Shot shot = hero.shots.get(i);
+            TankGame6.Shot shot = hero.shots.get(i);
             if (shot != null && shot.isLive) {
                 g.draw3DRect(shot.x, shot.y, 1, 1, false);
             } else {
@@ -169,7 +169,7 @@ public class MyPanel extends JPanel implements KeyListener, Runnable {
                 drawTank(enemyTank.getX(), enemyTank.getY(), g, enemyTank.getDirect(), 0);
                 //画出enemyTanks的所有子弹
                 for (int j = 0; j < enemyTank.shots.size(); j++) {
-                    Shot shot = enemyTank.shots.get(j);
+                    TankGame6.Shot shot = enemyTank.shots.get(j);
                     if (shot.isLive) {
                         g.draw3DRect(shot.x, shot.y, 1, 1, false);
                     } else {
@@ -228,7 +228,7 @@ public class MyPanel extends JPanel implements KeyListener, Runnable {
     public void hitEnemyTank() {
 
         for (int j = 0; j < hero.shots.size(); j++) {
-            Shot shot = hero.shots.get(j);
+            TankGame6.Shot shot = hero.shots.get(j);
             //判断是否击中敌人坦克
             if (shot != null && hero.shot.isLive) {
                 for (int i = 0; i < enemyTanks.size(); i++) {
@@ -246,7 +246,7 @@ public class MyPanel extends JPanel implements KeyListener, Runnable {
         for (int i = 0; i < enemyTanks.size(); i++) {
             EnemyTank enemyTank = enemyTanks.get(i);
             for (int j = 0; j < enemyTank.shots.size(); j++) {
-                Shot shot = enemyTank.shots.get(j);
+                TankGame6.Shot shot = enemyTank.shots.get(j);
                 if (hero.isLive && shot.isLive) {
                     hitTank(shot, hero);
                 }
@@ -255,7 +255,7 @@ public class MyPanel extends JPanel implements KeyListener, Runnable {
     }
 
     //是否击中敌方
-    public void hitTank(Shot s, Tank enemyTank) {
+    public void hitTank(TankGame6.Shot s, TankGame6.Tank enemyTank) {
         switch (enemyTank.getDirect()) {
             case 0://坦克向上
             case 2://坦克向下
@@ -265,7 +265,7 @@ public class MyPanel extends JPanel implements KeyListener, Runnable {
                     enemyTank.isLive = false;
                     enemyTanks.remove(enemyTank);
                     if (enemyTank instanceof EnemyTank) {
-                        Recorder.addAllEnemyTankNum();
+                        TankGame6.Recorder.addAllEnemyTankNum();
                     }
                     //Bomb对象
                     Bomb bomb = new Bomb(enemyTank.getX(), enemyTank.getY());
@@ -280,7 +280,7 @@ public class MyPanel extends JPanel implements KeyListener, Runnable {
                     enemyTank.isLive = false;
                     enemyTanks.remove(enemyTank);
                     if (enemyTank instanceof EnemyTank) {
-                        Recorder.addAllEnemyTankNum();
+                        TankGame6.Recorder.addAllEnemyTankNum();
                     }
                     //Bomb对象
                     Bomb bomb = new Bomb(enemyTank.getX(), enemyTank.getY());
